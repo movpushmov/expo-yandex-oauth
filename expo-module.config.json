@@ -1,0 +1,10 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["ExpoYandexOauthModule"],
+    "appDelegateSubscribers": ["AppLifecycleDelegate"]
+  },
+  "android": {
+    "modules": ["expo.modules.yandexoauth.ExpoYandexOauthModule"]
+  }
+}
