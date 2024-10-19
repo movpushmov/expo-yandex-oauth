@@ -2,51 +2,51 @@ import ExpoModulesCore
 import YandexLoginSDK
 
 class AuthObserver: YandexLoginSDKObserver {
-    var authorizedHandler: (String) -> Void;
+  var authorizedHandler: (String) -> Void;
     
-    init(authorizedHandler: @escaping (String) -> Void) {
-        self.authorizedHandler = authorizedHandler;
-    }
+  init(authorizedHandler: @escaping (String) -> Void) {
+    self.authorizedHandler = authorizedHandler;
+  }
     
-    func didFinishLogin(with result: Result<LoginResult, any Error>) {
-        switch result {
-        case .success(let token):
-            self.authorizedHandler(token.jwt)
-        case .failure(let error):
-            break
-        }
+  func didFinishLogin(with result: Result<LoginResult, any Error>) {
+    switch result {
+    case .success(let token):
+      self.authorizedHandler(token.jwt)
+    case .failure(let error):
+      break
     }
+  }
 }
 
 public class ExpoYandexOauthModule: Module {
-    @objc
-    private func authorizedHandler(token: String) {
-        sendEvent("onYandexAuthorized", [
-          "token": token
-        ])
-    }
+  @objc
+  private func authorizedHandler(token: String) {
+    sendEvent("onYandexAuthorized", [
+      "token": token
+    ])
+  }
     
   public func definition() -> ModuleDefinition {
     Name("ExpoYandexOauth")
 
     Constants([
-        :
+      :
     ])
 
     Events("onYandexAuthorized")
       
-      OnStartObserving {
-          YandexLoginSDK.shared.add(observer: AuthObserver(authorizedHandler: self.authorizedHandler))
-      }
+    OnStartObserving {
+      YandexLoginSDK.shared.add(observer: AuthObserver(authorizedHandler: self.authorizedHandler))
+    }
 
     Function("authorize") {
-        let rootViewController = UIApplication.shared.delegate?.window??.rootViewController
+      let rootViewController = UIApplication.shared.delegate?.window??.rootViewController
         
-        return try YandexLoginSDK.shared.authorize(with: rootViewController!)
+      return try YandexLoginSDK.shared.authorize(with: rootViewController!)
     }
       
     Function("logout") {
-        return try YandexLoginSDK.shared.logout()
+      return try YandexLoginSDK.shared.logout()
     }
 
     // Defines a JavaScript function that always returns a Promise and whose native code
