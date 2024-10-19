@@ -12,7 +12,7 @@ class AuthObserver: YandexLoginSDKObserver {
     switch result {
     case .success(let token):
       self.authorizedHandler(token.jwt)
-    case .failure(let error):
+    case .failure(_):
       break
     }
   }
