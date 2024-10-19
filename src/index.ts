@@ -14,14 +14,12 @@ export function logout() {
   return ExpoYandexOauthModule.logout();
 }
 
-interface ConfigureProps {
-  onAuthorized: (props: { token: string }) => void;
-}
+type Payload = { token: string; jwtToken: string };
+type Listener = (payload: Payload) => void;
 
-export function configure(props: ConfigureProps) {
-  const { onAuthorized } = props;
-
-  return {
-    onAuthorized: emitter.addListener("onYandexAuthorized", onAuthorized),
-  };
-}
+export const events = {
+  onAuthorized: {
+    listen: (listener: Listener) =>
+      emitter.addListener("onYandexAuthorized", listener),
+  },
+};
