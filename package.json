@@ -1,17 +1,17 @@
 {
   "name": "expo-yandex-oauth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Yandex OAuth native bindings for Expo",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "files": [
     "build",
+    "app.plugin.js",
     "ios",
     "android"
   ],
   "scripts": {
-    "build:plugin": "vite build",
-    "build": "npm run build:plugin && expo-module build",
+    "build": "npx vite-node build.ts",
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "expo-module test",
@@ -41,7 +41,8 @@
     "@types/react": "^18.0.25",
     "expo-module-scripts": "^3.5.2",
     "expo-modules-core": "^1.12.24",
-    "vite": "^5.4.9"
+    "vite": "^5.4.9",
+    "vite-plugin-dts": "^4.2.4"
   },
   "peerDependencies": {
     "expo": "*",
